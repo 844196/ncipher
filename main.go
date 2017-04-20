@@ -7,10 +7,16 @@ import (
 
 func main() {
 	opts := ncipher.Options{
-		Seed:      []rune("01234"),
-		Delimiter: []rune("-"),
+		Seed:      "そぞ",
+		Delimiter: "\n",
 	}
 	conv, _ := ncipher.NewConverter(&opts)
 
-	fmt.Printf(conv.Encode("foo"))
+	origin := "にゃんぱす"
+	encoded := conv.Encode(origin)
+	decoded := conv.Decode(encoded)
+
+	fmt.Printf("平文:\n%s\n\n", origin)
+	fmt.Printf("暗号化:\n%s\n\n", encoded)
+	fmt.Printf("復号化:\n%s\n\n", decoded)
 }
