@@ -2,6 +2,7 @@ package ncipher
 
 import (
 	"strconv"
+	"unicode/utf8"
 )
 
 type Options struct {
@@ -10,7 +11,7 @@ type Options struct {
 }
 
 func (opts *Options) seedSize() int {
-	return len([]rune(opts.Seed))
+	return utf8.RuneCountInString(opts.Seed)
 }
 
 func (opts *Options) encodeMap() map[string]string {
@@ -24,9 +25,10 @@ func (opts *Options) encodeMap() map[string]string {
 }
 
 func (opts *Options) decodeMap() map[string]string {
-	m := make(map[string]string, opts.seedSize())
-	for t, f := range opts.encodeMap() {
-		m[f] = t
+	m, i := make(map[string]string, opts.seedSize()), 0
+	for _, c := range opts.Seed {
+		m[string(c)] = strconv.Itoa(i)
+		i++
 	}
 
 	return m
