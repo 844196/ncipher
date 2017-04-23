@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/844196/ncipher/ncipher"
+	"github.com/844196/ncipher/lib"
 )
 
 func main() {
