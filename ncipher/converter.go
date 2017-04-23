@@ -3,6 +3,7 @@ package ncipher
 import (
 	"strconv"
 	"strings"
+	"unicode/utf8"
 )
 
 type converter struct {
@@ -17,7 +18,7 @@ func (c *converter) convert(target *string, convertMap map[string]string) {
 
 func (c *converter) Encode(origin string) (encoded string) {
 	rdx := c.opts.seedSize()
-	b, i := make([]string, len([]rune(origin))), 0
+	b, i := make([]string, utf8.RuneCountInString(origin)), 0
 	for _, r := range origin {
 		b[i] = strconv.FormatInt(int64(r), rdx)
 		i++
