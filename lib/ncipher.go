@@ -1,4 +1,4 @@
-// Package ncipher provides "Nyanpasu Cipher (N-Cipher)" encode & decode library.
+// Package ncipher provides "Nyanpasu Cipher (N-Cipher)" encoder & decoder
 package ncipher
 
 func NewConverter(opts *Options) (*Converter, error) {
