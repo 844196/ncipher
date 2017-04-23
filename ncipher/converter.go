@@ -6,17 +6,17 @@ import (
 	"unicode/utf8"
 )
 
-type converter struct {
+type Converter struct {
 	opts *Options
 }
 
-func (c *converter) convert(target *string, convertMap map[string]string) {
+func (c *Converter) convert(target *string, convertMap map[string]string) {
 	for f, t := range convertMap {
 		*target = strings.Replace(*target, f, t, -1)
 	}
 }
 
-func (c *converter) Encode(origin string) (encoded string) {
+func (c *Converter) Encode(origin string) (encoded string) {
 	rdx := c.opts.seedSize()
 	b, i := make([]string, utf8.RuneCountInString(origin)), 0
 	for _, r := range origin {
@@ -30,7 +30,7 @@ func (c *converter) Encode(origin string) (encoded string) {
 	return
 }
 
-func (c *converter) Decode(origin string) (decoded string) {
+func (c *Converter) Decode(origin string) (decoded string) {
 	c.convert(&origin, c.opts.decodeMap())
 
 	rdx := c.opts.seedSize()
@@ -43,8 +43,4 @@ func (c *converter) Decode(origin string) (decoded string) {
 	decoded = strings.Join(b, "")
 
 	return
-}
-
-func NewConverter(opts *Options) (*converter, error) {
-	return &converter{opts: opts}, nil
 }
