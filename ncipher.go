@@ -28,8 +28,8 @@ type Encoding struct {
 	c *Config
 }
 
-func NewEncoding(config *Config) (*Encoding, error) {
-	sl := utf8.RuneCountInString(config.Seed)
+func NewEncoding(cnf *Config) (*Encoding, error) {
+	sl := utf8.RuneCountInString(cnf.Seed)
 
 	if sl < SEED_MIN {
 		return nil, errors.New("seed too short")
@@ -39,21 +39,21 @@ func NewEncoding(config *Config) (*Encoding, error) {
 		return nil, errors.New("seed too long")
 	}
 
-	if utf8.RuneCountInString(config.Delimiter) < DELIMITER_MIN {
+	if utf8.RuneCountInString(cnf.Delimiter) < DELIMITER_MIN {
 		return nil, errors.New("delimiter too short")
 	}
 
-	for _, r := range config.Seed {
-		if s := string(r); strings.Count(config.Seed, s) != 1 {
+	for _, r := range cnf.Seed {
+		if s := string(r); strings.Count(cnf.Seed, s) != 1 {
 			return nil, fmt.Errorf(fmt.Sprintf("duplicate seed char \"%s\"", s))
 		}
 	}
 
-	if isDuplicate := strings.ContainsAny(config.Seed, config.Delimiter); isDuplicate {
+	if isDuplicate := strings.ContainsAny(cnf.Seed, cnf.Delimiter); isDuplicate {
 		return nil, errors.New("has include seed char in delimiter")
 	}
 
-	return &Encoding{c: config}, nil
+	return &Encoding{c: cnf}, nil
 }
 
 func (c *Encoding) Encode(src string) (dst string) {
