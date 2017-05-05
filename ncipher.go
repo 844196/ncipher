@@ -9,9 +9,9 @@ import (
 )
 
 const (
-	SEED_MIN      = 2
-	SEED_MAX      = 36
-	DELIMITER_MIN = 1
+	SeedMin      = 2
+	SeedMax      = 36
+	DelimiterMin = 1
 )
 
 var (
@@ -31,15 +31,15 @@ type Encoding struct {
 func NewEncoding(cnf *Config) (*Encoding, error) {
 	sl := utf8.RuneCountInString(cnf.Seed)
 
-	if sl < SEED_MIN {
+	if sl < SeedMin {
 		return nil, errors.New("seed too short")
 	}
 
-	if sl > SEED_MAX {
+	if sl > SeedMax {
 		return nil, errors.New("seed too long")
 	}
 
-	if utf8.RuneCountInString(cnf.Delimiter) < DELIMITER_MIN {
+	if utf8.RuneCountInString(cnf.Delimiter) < DelimiterMin {
 		return nil, errors.New("delimiter too short")
 	}
 
