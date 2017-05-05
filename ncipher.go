@@ -57,8 +57,8 @@ func NewEncoding(cnf *Config) (*Encoding, error) {
 	return &Encoding{c: cnf}, nil
 }
 
-func (c *Encoding) Encode(src string) (dst string) {
-	seedL := utf8.RuneCountInString(c.c.Seed)
+func (e *Encoding) Encode(src string) (dst string) {
+	seedL := utf8.RuneCountInString(e.c.Seed)
 
 	sub := make([]string, utf8.RuneCountInString(src))
 	i := 0
@@ -66,11 +66,11 @@ func (c *Encoding) Encode(src string) (dst string) {
 		sub[i] = strconv.FormatInt(int64(srcR), seedL)
 		i++
 	}
-	total := strings.Join(sub, c.c.Delimiter)
+	total := strings.Join(sub, e.c.Delimiter)
 
 	j, k, l := 0, 0, 1
 	pair := make([]string, seedL*2)
-	for _, seedR := range c.c.Seed {
+	for _, seedR := range e.c.Seed {
 		pair[k] = basemap[j]
 		pair[l] = string(seedR)
 		j++
@@ -84,10 +84,10 @@ func (c *Encoding) Encode(src string) (dst string) {
 	return
 }
 
-func (c *Encoding) Decode(src string) (dst string, err error) {
-	seedL := utf8.RuneCountInString(c.c.Seed)
+func (e *Encoding) Decode(src string) (dst string, err error) {
+	seedL := utf8.RuneCountInString(e.c.Seed)
 
-	cipherCharSet := c.c.Seed + c.c.Delimiter
+	cipherCharSet := e.c.Seed + e.c.Delimiter
 	for _, srcR := range src {
 		if false == strings.ContainsAny(string(srcR), cipherCharSet) {
 			return dst, errors.New("invalid cipher string")
@@ -96,7 +96,7 @@ func (c *Encoding) Decode(src string) (dst string, err error) {
 
 	i, j, k := 0, 0, 1
 	pair := make([]string, seedL*2)
-	for _, seedR := range c.c.Seed {
+	for _, seedR := range e.c.Seed {
 		pair[j] = string(seedR)
 		pair[k] = basemap[i]
 		i++
@@ -105,7 +105,7 @@ func (c *Encoding) Decode(src string) (dst string, err error) {
 	}
 
 	replacer := strings.NewReplacer(pair...)
-	sub := strings.Split(replacer.Replace(src), c.c.Delimiter)
+	sub := strings.Split(replacer.Replace(src), e.c.Delimiter)
 
 	for l := 0; l < len(sub); l++ {
 		cp, err := strconv.ParseInt(sub[l], seedL, 0)
