@@ -1,3 +1,4 @@
+// Package ncipher provides "Nyanpasu Cipher (N-Cipher)" encoder & decoder
 package ncipher
 
 import (
