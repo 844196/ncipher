@@ -32,7 +32,7 @@ func main() {
 	out := ncipher.StdEncoding.Encode(src)
 
 	fmt.Println(out)
-	// Output: ぱすすんゃゃ〜ぱすすんにぱ〜ぱすすんゃゃ〜ぱすすんにぱ〜ぱすすにすす〜ぱすぱすんぱ〜ぱすすににに〜ぱすぱすすゃ〜ぱすぱすゃゃ〜ぱすすにすぱ〜ぱすすにぱゃ
+	// Output: ぱすすんゃゃ〜ぱすすんにぱ〜ぱすすんゃゃ〜ぱすすんにぱ〜ぱすすにすす〜ぱすぱすんぱ〜ぱすすににに〜ぱすぱすすゃ〜ぱすぱすゃゃ〜ぱすすにすぱ〜ぱすすにぱゃ〜
 }
 ```
 
@@ -55,7 +55,7 @@ func main() {
 
 	encoded := enc.Encode(src)
 	fmt.Println(encoded)
-	// Output: とにか、ないた、えね、えぬ、おそ、いく、とにし、ととな、おう、おつ、おえ、えぬ
+	// Output: とにか、ないた、えね、えぬ、おそ、いく、とにし、ととな、おう、おつ、おえ、えぬ、
 
 	decoded, _ := enc.Decode(encoded)
 	fmt.Println(decoded)
