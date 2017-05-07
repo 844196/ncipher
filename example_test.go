@@ -11,7 +11,7 @@ func Example() {
 	out := ncipher.StdEncoding.Encode(in)
 
 	fmt.Println(out)
-	// Output: ぱすすんゃゃ〜ぱすすんにぱ〜ぱすすんゃゃ〜ぱすすんにぱ〜ぱすすにすす〜ぱすぱすんぱ〜ぱすすににに〜ぱすぱすすゃ〜ぱすぱすゃゃ〜ぱすすにすぱ〜ぱすすにぱゃ
+	// Output: ぱすすんゃゃ〜ぱすすんにぱ〜ぱすすんゃゃ〜ぱすすんにぱ〜ぱすすにすす〜ぱすぱすんぱ〜ぱすすににに〜ぱすぱすすゃ〜ぱすぱすゃゃ〜ぱすすにすぱ〜ぱすすにぱゃ〜
 }
 
 func ExampleEncoding_Encode() {
@@ -25,7 +25,7 @@ func ExampleEncoding_Encode() {
 	out := enc.Encode(in)
 
 	fmt.Println(out)
-	// Output: とにか、ないた、えね、えぬ、おそ、いく、とにし、ととな、おう、おつ、おえ、えぬ
+	// Output: とにか、ないた、えね、えぬ、おそ、いく、とにし、ととな、おう、おつ、おえ、えぬ、
 }
 
 func ExampleEncoding_Decode() {
@@ -35,7 +35,7 @@ func ExampleEncoding_Decode() {
 	}
 	enc, _ := ncipher.NewEncoding(&cnf)
 
-	in := "とにか、ないた、えね、えぬ、おそ、いく、とにし、ととな、おう、おつ、おえ、えぬ"
+	in := "とにか、ないた、えね、えぬ、おそ、いく、とにし、ととな、おう、おつ、おえ、えぬ、"
 	out, _ := enc.Decode(in)
 
 	fmt.Println(out)

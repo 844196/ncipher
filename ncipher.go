@@ -79,7 +79,7 @@ func (e *Encoding) Encode(src string) (dst string) {
 	}
 
 	replacer := strings.NewReplacer(pair...)
-	dst = replacer.Replace(total)
+	dst = replacer.Replace(total) + e.c.Delimiter
 
 	return
 }
@@ -108,10 +108,15 @@ func (e *Encoding) Decode(src string) (dst string, err error) {
 	sub := strings.Split(replacer.Replace(src), e.c.Delimiter)
 
 	for l := 0; l < len(sub); l++ {
+		if len(sub[l]) == 0 {
+			continue
+		}
+
 		cp, err := strconv.ParseInt(sub[l], seedL, 0)
 		if err != nil {
 			return dst, err
 		}
+
 		sub[l] = string(rune(cp))
 	}
 	dst = strings.Join(sub, "")
