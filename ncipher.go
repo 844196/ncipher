@@ -26,7 +26,8 @@ type Config struct {
 }
 
 type Encoding struct {
-	c *Config
+	c                                      *Config
+	memoEncodeReplacer, memoDecodeReplacer *strings.Replacer
 }
 
 func NewEncoding(cnf *Config) (*Encoding, error) {
@@ -68,18 +69,20 @@ func (e *Encoding) Encode(src string) (dst string) {
 	}
 	total := strings.Join(sub, e.c.Delimiter)
 
-	j, k, l := 0, 0, 1
-	pair := make([]string, seedL*2)
-	for _, seedR := range e.c.Seed {
-		pair[k] = basemap[j]
-		pair[l] = string(seedR)
-		j++
-		k += 2
-		l += 2
+	if e.memoEncodeReplacer == nil {
+		j, k, l := 0, 0, 1
+		p := make([]string, seedL*2)
+		for _, seedR := range e.c.Seed {
+			p[k] = basemap[j]
+			p[l] = string(seedR)
+			j++
+			k += 2
+			l += 2
+		}
+		e.memoEncodeReplacer = strings.NewReplacer(p...)
 	}
 
-	replacer := strings.NewReplacer(pair...)
-	dst = replacer.Replace(total) + e.c.Delimiter
+	dst = e.memoEncodeReplacer.Replace(total) + e.c.Delimiter
 
 	return
 }
@@ -94,18 +97,20 @@ func (e *Encoding) Decode(src string) (dst string, err error) {
 		}
 	}
 
-	i, j, k := 0, 0, 1
-	pair := make([]string, seedL*2)
-	for _, seedR := range e.c.Seed {
-		pair[j] = string(seedR)
-		pair[k] = basemap[i]
-		i++
-		j += 2
-		k += 2
+	if e.memoDecodeReplacer == nil {
+		i, j, k := 0, 0, 1
+		p := make([]string, seedL*2)
+		for _, seedR := range e.c.Seed {
+			p[j] = string(seedR)
+			p[k] = basemap[i]
+			i++
+			j += 2
+			k += 2
+		}
+		e.memoDecodeReplacer = strings.NewReplacer(p...)
 	}
 
-	replacer := strings.NewReplacer(pair...)
-	sub := strings.Split(replacer.Replace(src), e.c.Delimiter)
+	sub := strings.Split(e.memoDecodeReplacer.Replace(src), e.c.Delimiter)
 
 	for l := 0; l < len(sub); l++ {
 		if len(sub[l]) == 0 {
